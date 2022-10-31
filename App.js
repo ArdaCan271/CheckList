@@ -2,23 +2,24 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
+  View,
 } from 'react-native';
+
+import HomePage from './screens/HomePage';
 
 
 
 const App = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-
-    </SafeAreaView>
+    <View style={styles.container}>
+      <HomePage/>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
   }
 });
 
