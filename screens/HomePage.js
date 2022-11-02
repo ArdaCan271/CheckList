@@ -1,53 +1,36 @@
 import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from "react";
 
+const DATA = [
+  {
+    title: "aaaaaa"
+  }
+];
+
+const Item = ({ title }) => (
+  <View style={styles.taskView}>
+    <Text>{title}</Text>
+  </View>
+);
+
 const HomePage = () => {
+
+  const renderItem = ({item}) => {
+    <Item title={item.title}/>
+  }
 
   const [tasks, setTasks] = useState([]);
 
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("tasks");
-      if (value !== null) {
-        setTasks(JSON.parse(value))
-      }
-    } catch (err){
-      console.log(err);
-    }
-  }
 
-  useEffect(() => {
-    getData();
-  }, [])
-
-  useEffect(() => {
-    async function storeItems(){
-      const stringifiedTasks = JSON.stringify(tasks);
-      await AsyncStorage.setItem("tasks", stringifiedTasks)
-    }
-    storeItems();
-  }, [tasks.length])
-
-  const [text, setText] = useState("")
-
-  const handleAddPress = () => {
-    if (text.length !== 0){
-        setTasks([...tasks, text]);
-    }
-    setText("");
-  }
-
-  const handleDelPress = (index) => {
-    const newTasks = [...tasks]
-    newTasks.splice(index, 1)
-    setTasks(newTasks)
-  }
 
   return (
     <View style={styles.container}>
-
+      <FlatList
+      data={DATA}
+      renderItem={renderItem}/>
+      <Text style={{fontSize: 26, color: "white"}}>Hello, World!</Text>
     </View>
   )
 };
@@ -56,6 +39,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#22272e",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  taskView: {
+    width: "80%",
+    height: 40,
+    backgroundColor: "red",
+    borderColor: "white",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
